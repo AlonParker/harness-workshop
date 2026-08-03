@@ -1,0 +1,14 @@
+# Your harness writes here. Contains prompt text and task descriptions.
+logs/
+
+# Machine-specific: absolute paths, your own permissions. Not portable.
+.claude/settings.local.json
+
+.mcp.json.bak
+
+# The mem0 python env — ~930 MB, rebuilt from uv.lock by mem0/run.sh.
+# uv.lock itself IS committed: it pins exact versions, which is what makes
+# everyone's install identical.
+mem0/.venv/
+__pycache__/
+*.pyc

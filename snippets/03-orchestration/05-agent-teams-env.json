@@ -1,0 +1,7 @@
+{
+  "_comment": "GOES IN ~/.claude/settings.json — YOUR PERSONAL SETTINGS, not the project one.",
+
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  }
+}

@@ -1,0 +1,13 @@
+.idea/
+.DS_Store
+.claude/settings.local.json
+
+# Your harness writes here. Contains prompt text and task descriptions —
+# never commit it.
+logs/
+.venv/
+
+# mem0 track (lives in my-harness/mem0 — uv.lock IS committed, the venv is not)
+my-harness/mem0/.venv/
+__pycache__/
+*.pyc

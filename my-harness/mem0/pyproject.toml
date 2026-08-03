@@ -1,0 +1,31 @@
+[project]
+name = "workshop-mem0-mcp"
+version = "0.1.0"
+description = "Thin local MCP server over the mem0 OSS library (Qdrant + sentence-transformers, verbatim writes, no LLM). Nothing leaves the machine."
+requires-python = ">=3.11"
+dependencies = [
+    "mem0ai>=0.1.100",
+    "mcp>=1.9.0",
+    # pulls torch — this is the big download on first `uv sync`
+    "sentence-transformers>=3.0.0",
+    # Needed so that we DON'T use a cloud LLM. mem0 always builds an LLM
+    # provider: omit the `llm` section and it falls back to OpenAI and demands
+    # OPENAI_API_KEY (verified — it raises before you write anything). Naming
+    # ollama instead keeps the stack local, and this package is the import-time
+    # dependency that provider needs.
+    #
+    # Nothing here ever talks to Ollama: mem0/llms/ollama.py only does
+    # `Client(host=...)` at init (an httpx client, no network call), and its
+    # send path is never reached because every write is infer=False. So the
+    # Ollama daemon is NOT required and the model name "unused" is never
+    # resolved. Do not remove this dep, and do not install Ollama.
+    "ollama>=0.4.0",
+    # BM25 sparse encoder — this is what makes retrieval hybrid rather than
+    # dense-only. Without it mem0 SILENTLY disables keyword search, on write
+    # and on search alike, with no error and no warning at the tool level.
+    # Everything still looks like it works, until you search for a literal
+    # token (a ticket key, a symbol name, a table name) and get a plausible
+    # neighbour instead: a dense vector treats AF-4278 and AF-4249 as nearly
+    # the same string. Do not drop this to save the download.
+    "fastembed>=0.8.0",
+]

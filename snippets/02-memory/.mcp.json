@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "mem0-local": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "mem0",
+        "python",
+        "server.py"
+      ],
+      "env": {
+        "MEM0_COLLECTION": "my_harness_memory",
+        "MEM0_USER_ID": "me",
+        "QDRANT_HOST": "localhost",
+        "QDRANT_PORT": "6333",
+        "MEM0_EMBEDDER_MODEL": "intfloat/multilingual-e5-small",
+        "MEM0_EMBEDDING_DIMS": "384"
+      }
+    }
+  }
+}

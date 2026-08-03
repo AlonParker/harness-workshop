@@ -1,0 +1,8 @@
+{
+  "service": "notify-svc",
+  "retry_limit": 3,
+  "channels": [
+    "email",
+    "push"
+  ]
+}
