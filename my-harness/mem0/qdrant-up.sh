@@ -25,7 +25,7 @@ fi
 if [[ "$(uname -s)" == "Darwin" ]]; then
   if ! podman machine list --format '{{.Name}}' 2>/dev/null | grep -q .; then
     echo "No podman machine yet — creating one (a few minutes, one time only)..."
-    podman machine init --memory 2048 || { echo "FAIL: podman machine init"; exit 1; }
+    podman machine init --memory 512 || { echo "FAIL: podman machine init"; exit 1; }
   fi
   if ! podman machine list --format '{{.Running}}' 2>/dev/null | grep -qi true; then
     echo "Starting podman machine..."
