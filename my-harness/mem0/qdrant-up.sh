@@ -23,9 +23,16 @@ fi
 # macOS/Windows only: podman needs a Linux VM. On Linux there is no machine
 # subsystem and 'podman machine list' returns nothing useful — skip quietly.
 if [[ "$(uname -s)" == "Darwin" ]]; then
+  # podman >= 6 defaults to the libkrun provider on macOS, which needs the
+  # separate krunkit binary that 'brew install podman' does not pull in.
+  # applehv is built into macOS and needs nothing extra.
+  export CONTAINERS_MACHINE_PROVIDER=${CONTAINERS_MACHINE_PROVIDER:-applehv}
   if ! podman machine list --format '{{.Name}}' 2>/dev/null | grep -q .; then
     echo "No podman machine yet — creating one (a few minutes, one time only)..."
-    podman machine init --memory 512 || { echo "FAIL: podman machine init"; exit 1; }
+    # 1024 MB is the tested minimum: at 512 the Fedora CoreOS 44 image cannot
+    # unpack its initramfs and kernel-panics, while 'podman machine start'
+    # hangs silently instead of failing.
+    podman machine init --memory 1024 || { echo "FAIL: podman machine init"; exit 1; }
   fi
   if ! podman machine list --format '{{.Running}}' 2>/dev/null | grep -qi true; then
     echo "Starting podman machine..."
